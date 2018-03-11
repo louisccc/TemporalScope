@@ -24,5 +24,3 @@ class UserInputController extends KaleidoController {
       moveImageSelection(mouseX, mouseY);
     }
 }
-
-

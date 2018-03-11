@@ -20,8 +20,8 @@ PFont font;
 private UserInputController controller;
 private boolean debug = true;
 void setup() {
-    
-    size(margin+radius*3,margin*2+radius*2,P2D);
+    // noLoop();
+    size(1230,820);
     frameRate(30);
     
     //====================================
@@ -74,6 +74,7 @@ void setup() {
     println("image count " + count_img);
     //controller.changeImage(imgs[0], "applet-can-not-save", true);
     index_img = 0;
+    // loop();
 }
 
 // use the draw() in KaleidoController
@@ -102,5 +103,3 @@ void mouseMoved() {
 void keyReleased() {
   controller.keyReleased();
 }
-
-
