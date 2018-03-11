@@ -1,9 +1,7 @@
 class UserInputController extends KaleidoController {
    
-  private PVector lastVector = new PVector(0,0);
-  
-   public UserInputController(int screenradius, int scalefactor, PImage[] imgs) { 
-       super(screenradius, scalefactor, imgs);
+   public UserInputController(String folderPath) { 
+       super(folderPath);
    }
    
    public void keyReleased() {

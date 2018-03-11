@@ -3,17 +3,15 @@ class KaleidoSeg {
     PImage image;
     PImage big_image;
     int selection = 0;
-    int radius;
     private int pos_x; 
     private int pos_y;
     private int pos_radius = 100;
     private int center_x; 
     private int center_y;
     
-    public KaleidoSeg(PImage image, int radius) {
+    public KaleidoSeg(PImage image) {
       
         this.image = image;
-        this.radius = radius;
         this.big_image = getCopy(image);
         this.image.resize(this.pos_radius, this.pos_radius);
         this.big_image.resize(this.pos_radius*2, this.pos_radius*2);
