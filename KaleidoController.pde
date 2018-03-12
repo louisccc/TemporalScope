@@ -7,12 +7,11 @@ class KaleidoController {
 
     private PImage img, imgH;
     private PGraphics graph, graphH;
-    private KaleidoSeg kaleidoscope;
     
-    private PImage[]     imgs; // images 
+    private PImage[]     imgs; // images
     private String[]     filenames; // the filename of images
     private String       folderPath;
-    private String[]     fileLastModifieds; 
+    private String[]     fileLastModifieds;
     private KaleidoSeg[] kaleido_imgs;
 
     private int radius = 500; // radius of circle
@@ -28,16 +27,19 @@ class KaleidoController {
         this.folderPath = folderPath;
 
         imageFileExtCheck();
+        
         //====================================
         // load the images from 'img' folder
         //====================================
         this.imgs = new PImage[this.filenames.length];
         this.fileLastModifieds = new String [this.filenames.length];
+        this.kaleido_imgs = new KaleidoSeg[this.filenames.length];   
 
         for (int i=0; i<this.filenames.length;i++) {  
             String imgFilePath = this.folderPath + this.filenames[i];
             
             this.imgs[i] = loadImage(imgFilePath);
+            this.kaleido_imgs[i] = new KaleidoSeg(this.imgs[i]);
             
             File imgFile = new File(folderPath + filenames[i]);
             Date lastModifiedDate = new Date(imgFile.lastModified());
@@ -52,10 +54,8 @@ class KaleidoController {
           
         }
 
-        kaleido_imgs = new KaleidoSeg[this.imgs.length];   
-        for (int i=0; i<this.imgs.length;i++){
-            this.kaleido_imgs[i] = new KaleidoSeg(this.imgs[i]);
-        }
+        
+        
         
         if (this.debug)
             println("image count " + getImgCount());
@@ -79,10 +79,6 @@ class KaleidoController {
     public int getImgCount() {
         return this.imgs.length;
     } 
-
-    public KaleidoSeg getKaleidoscope() {
-        return kaleidoscope;
-    }
 
     public synchronized void draw() {
       
