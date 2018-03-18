@@ -1,23 +1,33 @@
 class KaleidoSeg {
     
-    PImage image;
-    PImage big_image;
-    int selection = 0;
+    private PImage image;
+    private PImage big_image;
+    
     private int pos_x; 
     private int pos_y;
     private int pos_radius = 100;
     private int center_x; 
     private int center_y;
     
-    public KaleidoSeg(PImage image) {
-      
-        this.image = image;
-        this.big_image = getCopy(image);
+    private int selection = 0;
+    private String lastModifiedDate = "";
+    private String image_path = "";
+    
+    public KaleidoSeg(String image_path) {
+        this.image_path = image_path;
+        PImage original_size_img = loadImage(image_path);
+        this.image = original_size_img;
+        this.big_image = getCopy(original_size_img);
         this.image.resize(this.pos_radius, this.pos_radius);
         this.big_image.resize(this.pos_radius*2, this.pos_radius*2);
+        this.selection = 0;
+        
+        File imgFile = new File(image_path);
+        Date lastModifiedDate = new Date(imgFile.lastModified());
+        this.lastModifiedDate = lastModifiedDate.toString();   
     }
-    
-    public PImage getCopy(PImage image) {
+
+    private PImage getCopy(PImage image) {
         PImage newImage = createImage(image.width, image.height, image.format);
         newImage.loadPixels();
         System.arraycopy(image.pixels, 0, newImage.pixels, 0, image.pixels.length);
@@ -37,6 +47,10 @@ class KaleidoSeg {
     public int getCenterY(){
       return this.pos_y + this.pos_radius / 2;
     }
+
+    public String getLastModifiedDate(){
+        return this.lastModifiedDate;
+    }
     
     public void setRadius(int r){
       this.pos_radius = r;
@@ -47,9 +61,6 @@ class KaleidoSeg {
     public void setNormal() {
       this.selection = 0;
     }
-    /*public PGraphics getBuffer() {
-        return buffer;
-    }*/
 
     public synchronized void draw() {
         

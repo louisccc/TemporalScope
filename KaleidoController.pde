@@ -4,18 +4,13 @@ class KaleidoController {
     public float overallrotate;
     public int currentRound;
     private float rotateKal = 0;
-
-    private PImage img, imgH;
-    private PGraphics graph, graphH;
     
-    private PImage[]     imgs; // images
     private String[]     filenames; // the filename of images
     private String       folderPath;
-    private String[]     fileLastModifieds;
     private KaleidoSeg[] kaleido_imgs;
 
-    private int radius = 500; // radius of circle
-    private int current_nearest = 0;
+    private int radius = 500; // radius of circle.
+    private int current_nearest = 0; // current nearest photo to cursor.
     
     private boolean debug = false; // this is used to toggle debug logging.
 
@@ -28,35 +23,21 @@ class KaleidoController {
 
         imageFileExtCheck();
         
-        //====================================
-        // load the images from 'img' folder
-        //====================================
-        this.imgs = new PImage[this.filenames.length];
-        this.fileLastModifieds = new String [this.filenames.length];
         this.kaleido_imgs = new KaleidoSeg[this.filenames.length];   
 
         for (int i=0; i<this.filenames.length;i++) {  
             String imgFilePath = this.folderPath + this.filenames[i];
-            
-            this.imgs[i] = loadImage(imgFilePath);
-            this.kaleido_imgs[i] = new KaleidoSeg(this.imgs[i]);
-            
-            File imgFile = new File(folderPath + filenames[i]);
-            Date lastModifiedDate = new Date(imgFile.lastModified());
-            this.fileLastModifieds[i] = lastModifiedDate.toString();
+            this.kaleido_imgs[i] = new KaleidoSeg(imgFilePath);
             
             if (this.debug) {
                 println("img path: " + imgFilePath);
-                println("img modified time: " + this.fileLastModifieds[i]);
+                println("img modified time: " + this.kaleido_imgs[i].getLastModifiedDate());
                 println("img index: " + i);
                 println("===");
             }
           
         }
 
-        
-        
-        
         if (this.debug)
             println("image count " + getImgCount());
     
@@ -73,11 +54,11 @@ class KaleidoController {
         }
     }
     public String getCurSelectedImgModifiedTime(){
-        return this.fileLastModifieds[this.current_nearest];
+        return this.kaleido_imgs[this.current_nearest].getLastModifiedDate();
     }
     
     public int getImgCount() {
-        return this.imgs.length;
+        return this.kaleido_imgs.length;
     } 
 
     public synchronized void draw() {
@@ -124,7 +105,7 @@ class KaleidoController {
             this.kaleido_imgs[max_dist_idx].setBig();
             this.kaleido_imgs[current_nearest].setNormal();
             this.current_nearest = max_dist_idx;
-            println(positionX + " " + positionY + " select:" + this.current_nearest);
+            //println(positionX + " " + positionY + " select:" + this.current_nearest);
         }
     }
 

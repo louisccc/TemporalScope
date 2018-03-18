@@ -16,8 +16,9 @@ void setup(){
       
     controller = new UserInputController(dataPath("img") + '/');
     
-    if(showDate)
+    if(showDate) {
         font = createFont("Futura.ttc",72);
+    }
 }
 
 void draw() {
