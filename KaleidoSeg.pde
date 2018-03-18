@@ -36,16 +36,22 @@ class KaleidoSeg {
     }
 
     public void setPosition(int x, int y){
-      this.pos_x = x;
-      this.pos_y = y;
+        this.pos_x = x;
+        this.pos_y = y;
     }
     
     public int getCenterX(){
-      return this.pos_x + this.pos_radius / 2;
+        if (this.selection == 0)
+            return this.pos_x + this.pos_radius / 2;
+        else 
+            return this.pos_x + this.pos_radius;
     }
     
     public int getCenterY(){
-      return this.pos_y + this.pos_radius / 2;
+        if (this.selection == 0) 
+            return this.pos_y + this.pos_radius / 2;
+        else
+            return this.pos_y + this.pos_radius;
     }
 
     public String getLastModifiedDate(){
@@ -61,7 +67,9 @@ class KaleidoSeg {
     public void setNormal() {
       this.selection = 0;
     }
-
+    public int isSelected() {
+        return this.selection;
+    }
     public synchronized void draw() {
         
         // draw the circle in suitable size

@@ -75,11 +75,20 @@ class KaleidoController {
         popMatrix();
       
         for(int i=0; i<this.kaleido_imgs.length;i++){
-            int center_x = width / 2 - 100 / 2 + (int) (0.5*radius * sin(TWO_PI*i/this.kaleido_imgs.length));
-            int center_y = height / 2 - 100 / 2 - (int) (0.5*radius * cos(TWO_PI*i/this.kaleido_imgs.length));
-            this.kaleido_imgs[i].setPosition(center_x, center_y);
-            this.kaleido_imgs[i].draw();
+            if ( this.kaleido_imgs[i].isSelected() == 0 ) {
+                int center_x = width / 2 - 100 / 2 + (int) (0.5*radius * sin(TWO_PI*i/this.kaleido_imgs.length));
+                int center_y = height / 2 - 100 / 2 - (int) (0.5*radius * cos(TWO_PI*i/this.kaleido_imgs.length));
+                this.kaleido_imgs[i].setPosition(center_x, center_y);
+                this.kaleido_imgs[i].draw();
+            }
         }
+
+
+        int center_x = width / 2 - 200 / 2 + (int) (0.5*radius * sin(TWO_PI*this.current_nearest/this.kaleido_imgs.length));
+        int center_y = height / 2 - 200 / 2 - (int) (0.5*radius * cos(TWO_PI*this.current_nearest/this.kaleido_imgs.length));
+                
+        this.kaleido_imgs[this.current_nearest].setPosition(center_x, center_y);
+        this.kaleido_imgs[this.current_nearest].draw();
 
     }
 
@@ -88,24 +97,25 @@ class KaleidoController {
         /* The nearest picture should be scaled the biggest, 
            and the neighbors should be bigger than usual. */
       
-        int max_dist = 0;
-        int max_dist_idx = 0; 
+        int min_dist = 0;
+        int min_dist_idx = -1; 
       
         for(int i=0; i<this.kaleido_imgs.length;i++){
             KaleidoSeg seg = this.kaleido_imgs[i]; 
             int temp_dist = int(pow( (seg.getCenterX() - positionX), 2) + pow((seg.getCenterY() - positionY), 2));
         
-            if (temp_dist > max_dist){
-                max_dist = temp_dist;
-                max_dist_idx = i;
+            if (min_dist_idx == -1 || temp_dist < min_dist){
+                min_dist = temp_dist;
+                min_dist_idx = i;
             }
         }
       
-        if (max_dist_idx != current_nearest){
-            this.kaleido_imgs[max_dist_idx].setBig();
+        if (min_dist_idx != current_nearest){
+            this.kaleido_imgs[min_dist_idx].setBig();
             this.kaleido_imgs[current_nearest].setNormal();
-            this.current_nearest = max_dist_idx;
-            //println(positionX + " " + positionY + " select:" + this.current_nearest);
+            this.current_nearest = min_dist_idx;
+            println(positionX + " " + positionY + " select:" + this.current_nearest);
+            println(this.kaleido_imgs[this.current_nearest].getCenterX() + " " + this.kaleido_imgs[this.current_nearest].getCenterY());
         }
     }
 
