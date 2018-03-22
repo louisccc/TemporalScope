@@ -10,6 +10,9 @@ class KaleidoController {
     private KaleidoSeg[] kaleido_imgs;
 
     private int radius = 500; // radius of circle.
+    private int pos_radius = 100; // radius of little nodes
+    private int pos_radius_big_c = 2;
+    
     private int current_nearest = 0; // current nearest photo to cursor.
     
     private boolean debug = false; // this is used to toggle debug logging.
@@ -87,19 +90,23 @@ class KaleidoController {
       
         for(int i=0; i<this.kaleido_imgs.length;i++){
             if ( this.kaleido_imgs[i].isSelected() == 0 ) {
-                int center_x = width / 2 - 100 / 2 + (int) (0.5*radius * sin(TWO_PI*i/this.kaleido_imgs.length));
-                int center_y = height / 2 - 100 / 2 - (int) (0.5*radius * cos(TWO_PI*i/this.kaleido_imgs.length));
+                int center_x = width / 2 - pos_radius / 2 + (int) (0.5*radius * sin(TWO_PI*i/this.kaleido_imgs.length));
+                int center_y = height / 2 - pos_radius / 2 - (int) (0.5*radius * cos(TWO_PI*i/this.kaleido_imgs.length));
                 this.kaleido_imgs[i].setPosition(center_x, center_y);
                 this.kaleido_imgs[i].draw();
             }
         }
 
 
-        int center_x = width / 2 - 200 / 2 + (int) (0.5*radius * sin(TWO_PI*this.current_nearest/this.kaleido_imgs.length));
-        int center_y = height / 2 - 200 / 2 - (int) (0.5*radius * cos(TWO_PI*this.current_nearest/this.kaleido_imgs.length));
+        int center_x = width / 2 - pos_radius / 2 *pos_radius_big_c + (int) (0.5*radius * sin(TWO_PI*this.current_nearest/this.kaleido_imgs.length));
+        int center_y = height / 2 - pos_radius / 2 *pos_radius_big_c - (int) (0.5*radius * cos(TWO_PI*this.current_nearest/this.kaleido_imgs.length));
                 
         this.kaleido_imgs[this.current_nearest].setPosition(center_x, center_y);
         this.kaleido_imgs[this.current_nearest].draw();
+        
+        // axis
+        PImage p = loadImage("img/concept3-01.png");
+        image(p, width/2-p.width/2, height/2-this.radius/2-p.height/2);
     }
 
     public synchronized void moveImageSelection(int positionX, int positionY) {

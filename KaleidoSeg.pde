@@ -120,7 +120,7 @@ class KaleidoSeg {
           fill(255,255,255,150);
           noStroke();
           if (this.selection == 1)
-            ellipse(this.pos_x+this.pos_radius, this.pos_y+this.pos_radius, this.pos_radius*2, this.pos_radius*2);
+            ellipse(this.pos_x+this.pos_radius/2*pos_radius_big_c, this.pos_y+this.pos_radius/2*pos_radius_big_c, this.pos_radius*pos_radius_big_c, this.pos_radius*pos_radius_big_c);
           else
             ellipse(this.pos_x+this.pos_radius/2, this.pos_y+this.pos_radius/2, this.pos_radius, this.pos_radius);
         popMatrix();
