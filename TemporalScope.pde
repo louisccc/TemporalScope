@@ -14,7 +14,7 @@ void setup(){
     size(1230,820);
     frameRate(30);
       
-    controller = new UserInputController(dataPath("img") + '/');
+    controller = new UserInputController(dataPath("img/1") + '/');
     
     if(showDate) {
         font = createFont("Futura.ttc",72);

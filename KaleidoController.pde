@@ -73,6 +73,26 @@ class KaleidoController {
         noFill();
         ellipse(width/2, height/2, this.radius, this.radius);
         popMatrix();
+        
+        // CENTER IMAGE
+        
+        PImage p2 = this.kaleido_imgs[this.current_nearest].getImage();
+        PGraphics pg2 = createGraphics(p2.width, p2.height, JAVA2D);
+        pg2.beginDraw(); 
+        pg2.background(0);
+        pg2.fill(255);
+        pg2.noStroke();
+        
+        pg2.ellipse(p2.width/2, p2.height/2, this.radius, this.radius);
+        
+        pg2.endDraw();
+        
+        PImage maskedImage2 = p2;
+        maskedImage2.mask(pg2);
+        
+        image(maskedImage2, width/2-p2.width/2, height/2-p2.height/2);
+        
+        // SIDE
       
         for(int i=0; i<this.kaleido_imgs.length;i++){
             if ( this.kaleido_imgs[i].isSelected() == 0 ) {
@@ -89,7 +109,6 @@ class KaleidoController {
                 
         this.kaleido_imgs[this.current_nearest].setPosition(center_x, center_y);
         this.kaleido_imgs[this.current_nearest].draw();
-
     }
 
     public synchronized void moveImageSelection(int positionX, int positionY) {

@@ -3,9 +3,13 @@ class KaleidoSeg {
     private PImage image;
     private PImage big_image;
     
+    private PImage center_image;
+    private int radius = 500; // radius of circle.
+    
     private int pos_x; 
     private int pos_y;
-    private int pos_radius = 100;
+    private int pos_radius = 70;
+    private int pos_radius_big_c = 2;
     private int center_x; 
     private int center_y;
     
@@ -18,8 +22,19 @@ class KaleidoSeg {
         PImage original_size_img = loadImage(image_path);
         this.image = original_size_img;
         this.big_image = getCopy(original_size_img);
-        this.image.resize(this.pos_radius, this.pos_radius);
-        this.big_image.resize(this.pos_radius*2, this.pos_radius*2);
+        this.center_image = getCopy(original_size_img);
+        
+        if (this.image.height>this.image.width) {
+          int ratio = this.pos_radius/this.image.width;
+          this.image.resize(this.pos_radius, this.image.height*ratio);
+          this.big_image.resize(this.pos_radius*pos_radius_big_c, this.image.height*pos_radius_big_c*ratio);
+          this.center_image.resize(this.radius, this.radius/this.image.width*this.image.height);
+        } else {
+          int ratio = this.pos_radius/this.image.height;
+          this.image.resize(this.image.width*ratio, this.pos_radius);
+          this.big_image.resize(this.image.width*ratio*pos_radius_big_c, this.pos_radius*pos_radius_big_c);
+          this.center_image.resize(this.radius/this.image.height*this.image.width, this.radius);
+        }
         this.selection = 0;
         
         File imgFile = new File(image_path);
@@ -58,6 +73,10 @@ class KaleidoSeg {
         return this.lastModifiedDate;
     }
     
+    public PImage getImage(){
+        return this.center_image;
+    }
+    
     public void setRadius(int r){
       this.pos_radius = r;
     }
@@ -83,7 +102,11 @@ class KaleidoSeg {
         pg.background(0);
         pg.fill(255);
         pg.noStroke();
-        pg.ellipse(p.width/2, p.height/2, p.width, p.height);
+        
+        if (this.selection == 1)
+          pg.ellipse(this.pos_radius, this.pos_radius, this.pos_radius*2, this.pos_radius*2);
+        else
+          pg.ellipse(this.pos_radius/2, this.pos_radius/2, this.pos_radius, this.pos_radius);
         pg.stroke(128);
         pg.strokeWeight(5);
         pg.endDraw();
@@ -91,6 +114,7 @@ class KaleidoSeg {
         
         PImage maskedImage = p;
         maskedImage.mask(pg);
+        
         image(maskedImage, this.pos_x, this.pos_y);
     }
 }
