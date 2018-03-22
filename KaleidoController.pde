@@ -63,16 +63,7 @@ class KaleidoController {
 
     public synchronized void draw() {
       
-        pushMatrix();
         background(0);
-        popMatrix();    
-        
-        pushMatrix();
-        stroke(255);
-        strokeWeight(5);
-        noFill();
-        ellipse(width/2, height/2, this.radius, this.radius);
-        popMatrix();
         
         // CENTER IMAGE
         

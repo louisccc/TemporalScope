@@ -8,7 +8,7 @@ class KaleidoSeg {
     
     private int pos_x; 
     private int pos_y;
-    private int pos_radius = 70;
+    private int pos_radius = 100; // radius of little nodes
     private int pos_radius_big_c = 2;
     private int center_x; 
     private int center_y;
@@ -92,29 +92,37 @@ class KaleidoSeg {
     public synchronized void draw() {
         
         // draw the circle in suitable size
-        PImage p;
-        if(this.selection == 1) 
-          p = this.big_image;
-        else
-          p = this.image;
-        PGraphics pg = createGraphics(p.width, p.height, JAVA2D);
-        pg.beginDraw(); 
-        pg.background(0);
-        pg.fill(255);
-        pg.noStroke();
+        //PImage p;
+        //if(this.selection == 1) 
+        //  p = this.big_image;
+        //else
+        //  p = this.image;
+        //PGraphics pg = createGraphics(p.width, p.height, JAVA2D);
+        //pg.beginDraw(); 
+        //pg.background(0);
+        //pg.fill(255);
+        //pg.noStroke();
         
-        if (this.selection == 1)
-          pg.ellipse(this.pos_radius, this.pos_radius, this.pos_radius*2, this.pos_radius*2);
-        else
-          pg.ellipse(this.pos_radius/2, this.pos_radius/2, this.pos_radius, this.pos_radius);
-        pg.stroke(128);
-        pg.strokeWeight(5);
-        pg.endDraw();
-        // draw the kaleidoscope with masking
+        //if (this.selection == 1)
+        //  pg.ellipse(this.pos_radius/2, this.pos_radius/2, this.pos_radius*2, this.pos_radius*2);
+        //else
+        //  pg.ellipse(this.pos_radius/2, this.pos_radius/2, this.pos_radius, this.pos_radius);
+        //pg.endDraw();
+        //// draw the kaleidoscope with masking
         
-        PImage maskedImage = p;
-        maskedImage.mask(pg);
+        //PImage maskedImage = p;
+        //maskedImage.mask(pg);
         
-        image(maskedImage, this.pos_x, this.pos_y);
+        //image(maskedImage, this.pos_x, this.pos_y);
+        
+        pushMatrix();
+          //background(0);
+          fill(255,255,255,150);
+          noStroke();
+          if (this.selection == 1)
+            ellipse(this.pos_x+this.pos_radius, this.pos_y+this.pos_radius, this.pos_radius*2, this.pos_radius*2);
+          else
+            ellipse(this.pos_x+this.pos_radius/2, this.pos_y+this.pos_radius/2, this.pos_radius, this.pos_radius);
+        popMatrix();
     }
 }
